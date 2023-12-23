@@ -8,7 +8,7 @@ local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
 local Window = Library:CreateWindow({
 
-    Title = 'Tempest Hub | Anime Adventures',
+    Title = 'Tempest Hub | Anime Souls X',
     Center = true,
     AutoShow = true,
     TabPadding = 8,
@@ -20,21 +20,213 @@ Library:Notify('Loading Anime Souls X Script', 5)
 warn('[TEMPEST HUB] Loading Locals')
 wait(1)
 
+local hanami = game.workspace._ENEMIES["1"].hanami.HumanoidRootPart
+local jogo = game.workspace._ENEMIES["1"].jogo.HumanoidRootPart
+local jupy = game.workspace._ENEMIES["1"].jupy.HumanoidRootPart
+local Mahito = game.workspace._ENEMIES["1"].mahito.HumanoidRootPart
+local geto = game.workspace._ENEMIES["1"].suguro_geto.HumanoidRootPart
+local sukuna = game.workspace._ENEMIES["1"].sukuna.HumanoidRootPart
 local player = game.Players.LocalPlayer
 local humanoidplayer = workspace._CHARACTERS[player.Name].HumanoidRootPart
 local tweenService = game:GetService("TweenService")
 local speed = 1000
-local enemies = {
-    'hanami',
-    'jogo',
-    'jupy',
-    'mahito',
-    'suguru_geto',
-    'sukuna'
-}
 
 warn('[TEMPEST HUB] Loading Functions')
 wait(1)
+
+function SetWalkSpeed(Value)
+    local walkSpeed = Value
+    
+    local UIS = game:GetService("UserInputService")
+    local RS = game:GetService("RunService")
+    local W, A, S, D
+    local xVelo, yVelo
+    
+    while true do
+        wait()
+        local HRP = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        local C = game.Workspace.CurrentCamera
+        local LV = C.CFrame.LookVector
+
+        for i, v in pairs(UIS:GetKeysPressed()) do
+            if v.KeyCode == Enum.KeyCode.W then
+                W = true
+            end
+            if v.KeyCode == Enum.KeyCode.A then
+                A = true
+            end
+            if v.KeyCode == Enum.KeyCode.S then
+                S = true
+            end
+            if v.KeyCode == Enum.KeyCode.D then
+                D = true
+            end
+        end
+
+        if W == true and S == true then
+            yVelo = false
+            W, S = nil, nil
+        end
+
+        if A == true and D == true then
+            xVelo = false
+            A, D = nil, nil
+        end
+
+        if yVelo ~= false then
+            if W == true then
+                if xVelo ~= false then
+                    if A == true then
+                        local LeftLV = (C.CFrame * CFrame.Angles(0, math.rad(45), 0)).LookVector
+                        HRP.Velocity = Vector3.new((LeftLV.X * walkSpeed), HRP.Velocity.Y, (LeftLV.Z * walkSpeed))
+                        W, A = nil, nil
+                    else
+                        if D == true then
+                            local RightLV = (C.CFrame * CFrame.Angles(0, math.rad(-45), 0)).LookVector
+                            HRP.Velocity = Vector3.new((RightLV.X * walkSpeed), HRP.Velocity.Y, (RightLV.Z * walkSpeed))
+                            W, D = nil, nil
+                        end
+                    end
+                end
+            else
+                if S == true then
+                    if xVelo ~= false then
+                        if A == true then
+                            local LeftLV = (C.CFrame * CFrame.Angles(0, math.rad(135), 0)).LookVector
+                            HRP.Velocity = Vector3.new((LeftLV.X * walkSpeed), HRP.Velocity.Y, (LeftLV.Z * walkSpeed))
+                            S, A = nil, nil
+                        else
+                            if D == true then
+                                local RightLV = (C.CFrame * CFrame.Angles(0, math.rad(-135), 0)).LookVector
+                                HRP.Velocity = Vector3.new((RightLV.X * walkSpeed), HRP.Velocity.Y, (RightLV.Z * walkSpeed))
+                                S, D = nil, nil
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        if W == true then
+            HRP.Velocity = Vector3.new((LV.X * walkSpeed), HRP.Velocity.Y, (LV.Z * walkSpeed))
+        end
+        if S == true then
+            HRP.Velocity = Vector3.new(-(LV.X * walkSpeed), HRP.Velocity.Y, -(LV.Z * walkSpeed))
+        end
+        if A == true then
+            local LeftLV = (C.CFrame * CFrame.Angles(0, math.rad(90), 0)).LookVector
+            HRP.Velocity = Vector3.new((LeftLV.X * walkSpeed), HRP.Velocity.Y, (LeftLV.Z * walkSpeed))
+        end
+        if D == true then
+            local RightLV = (C.CFrame * CFrame.Angles(0, math.rad(-90), 0)).LookVector
+            HRP.Velocity = Vector3.new((RightLV.X * walkSpeed), HRP.Velocity.Y, (RightLV.Z * walkSpeed))
+        end
+
+        xVelo, yVelo, W, A, S, D = nil, nil, nil, nil, nil, nil
+        wait()
+    end
+end
+
+function GetCFrame(obj, height, angle)
+    local cframe = CFrame.new()
+    local objType = typeof(obj)
+    
+    if objType == "Vector3" then
+        cframe = CFrame.new(obj)
+    elseif objType == "table" then
+        cframe = CFrame.new(unpack(obj))
+    elseif objType == "string" then
+        local parts = {}
+        for val in obj:gmatch("[^,]+") do
+            table.insert(parts, tonumber(val))
+        end
+        if #parts >= 3 then
+            cframe = CFrame.new(unpack(parts))
+        end
+    elseif objType == "Instance" then
+        if obj:IsA("Model") then
+            local rootPart = obj:FindFirstChild("HumanoidRootPart") or obj:FindFirstChild("Torso") -- Mude para o nome correto do RootPart
+            if rootPart then
+                cframe = rootPart.CFrame
+            end
+        elseif obj:IsA("Part") then
+            cframe = obj.CFrame
+        end
+    end
+
+    return cframe
+end
+
+function tweenModel(model, targetCFrame)
+    local duration = (model.PrimaryPart.Position - targetCFrame.Position).Magnitude / speed
+    local info = TweenInfo.new(duration, Enum.EasingStyle.Linear)
+    
+    local tween = tweenService:Create(model.PrimaryPart, info, {
+        Position = targetCFrame.Position,
+    })
+    
+    tween:Play()
+end
+
+function autokillhanami()
+    while getgenv().autokillhanami == true do
+    local targetCFrame = GetCFrame(hanami)
+    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+end
+
+function autokilljogo()
+    while getgenv().autokilljogo == true do
+    local targetCFrame = GetCFrame(jogo)
+    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+end
+
+function autokilljupy()
+    while getgenv().autokilljupy == true do
+    local targetCFrame = GetCFrame(jupy)
+    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+end
+
+function autokillmahito()
+    while getgenv().autokillmahito == true do
+    local targetCFrame = GetCFrame(Mahito)
+    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+end
+
+function autokillgeto()
+    while getgenv().autokillgeto == true do
+    local targetCFrame = GetCFrame(geto)
+    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+end
+
+function autokillsukuna()
+    while getgenv().autokillsukuna == true do
+    local targetCFrame = GetCFrame(sukuna)
+    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+end
+
+function autokill(Value)
+    if Value then
+        if selectenemy == 'Hanami' then
+            getgenv().autokillhanami = Value
+            autokillhanami()
+        elseif selectenemy == 'Jogo' then
+            getgenv().autokilljogo = Value
+            autokilljogo()
+        elseif selectenemy == 'Jupy' then
+            getgenv().autokilljupy = Value
+            autokilljupy()
+        elseif selectenemy == 'Mahito' then
+            getgenv().autokillmahito = Value
+            autokillmahito()
+        elseif selectenemy == 'Suguro Geto' then
+            getgenv().autokillgeto = Value
+            autokillgeto()
+        elseif selectenemy == 'Sukuna' then
+            getgenv().autokillsukuna = Value
+            autokillsukuna()
+        end
+    end
+end
 
 function autoclicker()
     while getgenv().autoclicker == true do
@@ -49,6 +241,13 @@ function autoclicker()
     }
     
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+    wait()
+    end
+end    
+
+function autoascend()
+    while getgenv().autoascend == true do
+
     wait()
     end
 end    
@@ -71,6 +270,38 @@ LeftGroupBox:AddToggle('Auto Clicker', {
     end
 })
 
+LeftGroupBox:AddSlider('Walkspeed', {
+    Text = 'Walkspeed',
+    Default = 16,
+    Min = 16,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+    Callback = function(Value)
+        SetWalkSpeed(Value)
+    end
+})
+
+local RightGroupBox = Tabs.Main:AddRightGroupBox('Player')
+
+RightGroupBox:AddDropdown('Select Portal', {
+    Values = { 'Hanami', 'Jogo', 'Jupy', 'Mahito', 'Suguro Geto', 'Sukuna'},
+    Default = 1,
+    Multi = false,
+    Text = 'Select Enemy',
+    Callback = function(Value)
+        selectenemy = Value
+    end
+})
+
+RightGroupBox:AddToggle('Auto Kill', {
+    Text = 'Auto Kill',
+    Default = false,
+    Tooltip = 'Auto Kill',
+    Callback = function(Value)
+        autokill(Value)
+    end
+})
 
 
 local FrameTimer = tick()
