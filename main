@@ -49,25 +49,9 @@ function autoclicker()
     }
     
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+    wait()
     end
 end    
-
-function autokill()
-    while getgenv().autokill == true do
-        local args = {
-            [1] = {
-                [1] = {
-                    [1] = "\3",
-                    [2] = "Click",
-                    [3] = "Execute",
-                    [4] = workspace:WaitForChild("_ENEMIES"):WaitForChild("1"):WaitForChild(ValuesDropdown)
-                }
-            }
-        }
-        
-        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-    end    
-end
 
 
 local Tabs = {
@@ -86,17 +70,6 @@ LeftGroupBox:AddToggle('Auto Clicker', {
         autoclicker()
     end
 })
-
-local Enemydropdown = LeftGroupBox:AddDropdown('Select Enemy', {
-    ValuesDropdown = {  enemies },
-    Default = none,
-    Multi = false,
-    Text = 'Select Enemy',
-    Callback = function(Value)
-        autokill = Value
-    end
-})
-
 
 
 
