@@ -1,0 +1,161 @@
+warn('[TEMPEST HUB] Loading Ui')
+wait(1)
+local repo = 'https://raw.githubusercontent.com/TrapstarKSSKSKSKKS/LinoriaLib/main/'
+
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+
+local Window = Library:CreateWindow({
+
+    Title = 'Tempest Hub | Anime Adventures',
+    Center = true,
+    AutoShow = true,
+    TabPadding = 8,
+    MenuFadeTime = 0.2
+})
+
+Library:Notify('Loading Anime Souls X Script', 5)
+
+warn('[TEMPEST HUB] Loading Locals')
+wait(1)
+
+local enemydropdown = game.workspace._ENEMIES["1"].enemies.HumanoidRootPart
+local player = game.Players.LocalPlayer
+local humanoidplayer = workspace._CHARACTERS[player.Name].HumanoidRootPart
+local tweenService = game:GetService("TweenService")
+local speed = 1000
+local enemies = {
+    'hanami',
+    'jogo',
+    'jupy',
+    'mahito',
+    'suguru_geto',
+    'sukuna'
+}
+
+warn('[TEMPEST HUB] Loading Functions')
+wait(1)
+
+function autoclicker()
+    while getgenv().autoclicker == true do
+    local args = {
+        [1] = {
+            [1] = {
+                [1] = "\3",
+                [2] = "Click",
+                [3] = "Execute"
+            }
+        }
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+    end
+end    
+
+function autokill()
+    while getgenv().autokill == true do
+        local args = {
+            [1] = {
+                [1] = {
+                    [1] = "\3",
+                    [2] = "Click",
+                    [3] = "Execute",
+                    [4] = workspace:WaitForChild("_ENEMIES"):WaitForChild("1"):WaitForChild(ValuesDropdown)
+                }
+            }
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+    end    
+end
+
+
+local Tabs = {
+    Main = Window:AddTab('Main'),
+}
+
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Player')
+
+LeftGroupBox:AddToggle('Auto Clicker', {
+    Text = 'Auto Clicker',
+    Default = false,
+    Tooltip = 'Auto Clicker',
+
+    Callback = function(Value)
+        getgenv().autoclicker = Value
+        autoclicker()
+    end
+})
+
+local Enemydropdown = LeftGroupBox:AddDropdown('Select Enemy', {
+    ValuesDropdown = {  enemies },
+    Default = none,
+    Multi = false,
+    Text = 'Select Enemy',
+    Callback = function(Value)
+        autokill = Value
+    end
+})
+
+
+
+
+local FrameTimer = tick()
+local FrameCounter = 0;
+local FPS = 60;
+
+local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(function()
+    FrameCounter += 1;
+
+    if (tick() - FrameTimer) >= 1 then
+        FPS = FrameCounter;
+        FrameTimer = tick();
+        FrameCounter = 0;
+    end;
+
+    Library:SetWatermark(('Tempest Hub | %s fps | %s ms'):format(
+        math.floor(FPS),
+        math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())
+    ));
+end);
+
+
+local Tabs = {
+['UI Settings'] = Window:AddTab('UI Settings'),
+}
+
+Library:OnUnload(function()
+    WatermarkConnection:Disconnect()
+
+    print('Unloaded!')
+    Library.Unloaded = true
+end)
+
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
+
+
+Library.ToggleKeybind = Options.MenuKeybind
+
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+
+ThemeManager:SetFolder('Tempest Hub')
+SaveManager:SetFolder('Tempest Hub/Anime Adventures')
+
+SaveManager:BuildConfigSection(Tabs['UI Settings'])
+
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
+
+SaveManager:LoadAutoloadConfig()
+
+
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+    v:Disable()
+end
+wait(1)
+warn('[TEMPEST HUB] Loaded')
