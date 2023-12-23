@@ -243,14 +243,7 @@ function autoclicker()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
     wait()
     end
-end    
-
-function autoascend()
-    while getgenv().autoascend == true do
-
-    wait()
-    end
-end    
+end      
 
 
 local Tabs = {
@@ -284,7 +277,7 @@ LeftGroupBox:AddSlider('Walkspeed', {
 
 local RightGroupBox = Tabs.Main:AddRightGroupBox('Player')
 
-RightGroupBox:AddDropdown('Select Portal', {
+RightGroupBox:AddDropdown('Select Enemy', {
     Values = { 'Hanami', 'Jogo', 'Jupy', 'Mahito', 'Suguro Geto', 'Sukuna'},
     Default = 1,
     Multi = false,
