@@ -20,7 +20,6 @@ Library:Notify('Loading Anime Souls X Script', 5)
 warn('[TEMPEST HUB] Loading Locals')
 wait(1)
 
-local enemydropdown = game.workspace._ENEMIES["1"].enemies.HumanoidRootPart
 local player = game.Players.LocalPlayer
 local humanoidplayer = workspace._CHARACTERS[player.Name].HumanoidRootPart
 local tweenService = game:GetService("TweenService")
