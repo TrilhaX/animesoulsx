@@ -20,12 +20,6 @@ Library:Notify('Loading Anime Souls X Script', 5)
 warn('[TEMPEST HUB] Loading Locals')
 wait(1)
 
-local hanami = game.workspace._ENEMIES["1"].hanami.HumanoidRootPart
-local jogo = game.workspace._ENEMIES["1"].jogo.HumanoidRootPart
-local jupy = game.workspace._ENEMIES["1"].jupy.HumanoidRootPart
-local Mahito = game.workspace._ENEMIES["1"].mahito.HumanoidRootPart
-local geto = game.workspace._ENEMIES["1"].suguro_geto.HumanoidRootPart
-local sukuna = game.workspace._ENEMIES["1"].sukuna.HumanoidRootPart
 local player = game.Players.LocalPlayer
 local humanoidplayer = workspace._CHARACTERS[player.Name].HumanoidRootPart
 local tweenService = game:GetService("TweenService")
@@ -168,78 +162,6 @@ function tweenModel(model, targetCFrame)
     tween:Play()
 end
 
-function autokillhanami()
-    while getgenv().autokillhanami == true do
-        local targetCFrame = GetCFrame(hanami)
-        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
-        wait()
-    end
-end
-
-function autokilljogo()
-    while getgenv().autokilljogo == true do
-        local targetCFrame = GetCFrame(jogo)
-        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
-        wait()
-    end
-end
-
-function autokilljupy()
-    while getgenv().autokilljupy == true do
-        local targetCFrame = GetCFrame(jupy)
-        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
-        wait()
-    end
-end
-
-function autokillmahito()
-    while getgenv().autokillmahito == true do
-        local targetCFrame = GetCFrame(Mahito)
-        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
-        wait()
-    end
-end
-
-function autokillgeto()
-    while getgenv().autokillgeto == true do
-        local targetCFrame = GetCFrame(geto)
-        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
-        wait()
-    end
-end
-
-function autokillsukuna()
-    while getgenv().autokillsukuna == true do
-        local targetCFrame = GetCFrame(sukuna)
-        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
-        wait()
-    end
-end
-
-function autokill(Value)
-    if Value then
-        if selectenemy == 'Hanami' then
-            getgenv().autokillhanami = Value
-            autokillhanami()
-        elseif selectenemy == 'Jogo' then
-            getgenv().autokilljogo = Value
-            autokilljogo()
-        elseif selectenemy == 'Jupy' then
-            getgenv().autokilljupy = Value
-            autokilljupy()
-        elseif selectenemy == 'Mahito' then
-            getgenv().autokillmahito = Value
-            autokillmahito()
-        elseif selectenemy == 'Suguro Geto' then
-            getgenv().autokillgeto = Value
-            autokillgeto()
-        elseif selectenemy == 'Sukuna' then
-            getgenv().autokillsukuna = Value
-            autokillsukuna()
-        end
-    end
-end
-
 function autoclicker()
     while getgenv().autoclicker == true do
     local args = {
@@ -253,13 +175,6 @@ function autoclicker()
     }
     
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-    wait()
-    end
-end    
-
-function autoascend()
-    while getgenv().autoascend == true do
-
     wait()
     end
 end    
