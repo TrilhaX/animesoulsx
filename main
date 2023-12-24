@@ -209,9 +209,9 @@ LeftGroupBox:AddSlider('Walkspeed', {
     end
 })
 
-local RightGroupBox = Tabs.Main:AddRightGroupBox('Player')
+local RightGroupBox = Tabs.Main:AddRightGroupBox('Farm')
 
-RightGroupBox:AddDropdown('Select Portal', {
+RightGroupBox:AddDropdown('Select Enemy', {
     Values = { 'Hanami', 'Jogo', 'Jupy', 'Mahito', 'Suguro Geto', 'Sukuna'},
     Default = 1,
     Multi = false,
