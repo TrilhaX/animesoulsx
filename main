@@ -170,38 +170,50 @@ end
 
 function autokillhanami()
     while getgenv().autokillhanami == true do
-    local targetCFrame = GetCFrame(hanami)
-    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        local targetCFrame = GetCFrame(hanami)
+        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        wait()
+    end
 end
 
 function autokilljogo()
     while getgenv().autokilljogo == true do
-    local targetCFrame = GetCFrame(jogo)
-    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        local targetCFrame = GetCFrame(jogo)
+        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        wait()
+    end
 end
 
 function autokilljupy()
     while getgenv().autokilljupy == true do
-    local targetCFrame = GetCFrame(jupy)
-    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        local targetCFrame = GetCFrame(jupy)
+        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        wait()
+    end
 end
 
 function autokillmahito()
     while getgenv().autokillmahito == true do
-    local targetCFrame = GetCFrame(Mahito)
-    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        local targetCFrame = GetCFrame(Mahito)
+        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        wait()
+    end
 end
 
 function autokillgeto()
     while getgenv().autokillgeto == true do
-    local targetCFrame = GetCFrame(geto)
-    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        local targetCFrame = GetCFrame(geto)
+        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        wait()
+    end
 end
 
 function autokillsukuna()
     while getgenv().autokillsukuna == true do
-    local targetCFrame = GetCFrame(sukuna)
-    tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        local targetCFrame = GetCFrame(sukuna)
+        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+        wait()
+    end
 end
 
 function autokill(Value)
@@ -243,7 +255,14 @@ function autoclicker()
     game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
     wait()
     end
-end      
+end    
+
+function autoascend()
+    while getgenv().autoascend == true do
+
+    wait()
+    end
+end    
 
 
 local Tabs = {
@@ -277,7 +296,7 @@ LeftGroupBox:AddSlider('Walkspeed', {
 
 local RightGroupBox = Tabs.Main:AddRightGroupBox('Player')
 
-RightGroupBox:AddDropdown('Select Enemy', {
+RightGroupBox:AddDropdown('Select Portal', {
     Values = { 'Hanami', 'Jogo', 'Jupy', 'Mahito', 'Suguro Geto', 'Sukuna'},
     Default = 1,
     Multi = false,
